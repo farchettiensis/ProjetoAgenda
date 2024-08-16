@@ -1,7 +1,7 @@
-import agenda.AgendaContato;
+import agenda.AgendaContatos;
 
 public class Main {
-    public static void main(String[] args) {;
-        AgendaContato.iniciarSistema();
+    public static void main(String[] args) {
+        AgendaContatos.iniciarSistema();
     }
 }

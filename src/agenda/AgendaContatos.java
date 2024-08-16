@@ -1,24 +1,25 @@
 package agenda;
 
-import utils.Utilitarios;
+import services.AgendaServices;
 import java.util.Scanner;
 
 
-public class AgendaContato {
+public class AgendaContatos {
     static String[][] contatos = new String[100][3];
     static int opcao, indice = 0;
 
     static public void iniciarSistema() {
-
         try (Scanner sc = new Scanner(System.in)) {
             do {
                 System.out.println(
-                        "\n##################\n" +
-                        "##### AGENDA #####\n" +
-                        "##################\n");
+                        """
+                        ##################
+                        ##### AGENDA #####
+                        ##################
+                        """);
 
                 if (indice > 0) {
-                    Utilitarios.imprimirAgendaFormatada(contatos, indice);
+                    AgendaServices.imprimirAgendaFormatada(contatos, indice);
                 }
 
                 System.out.println("\n>>>> Menu Contato <<<<");
@@ -66,15 +67,14 @@ public class AgendaContato {
     }
 
     private static void listarTodosContatos() {
-        Utilitarios.imprimirAgendaFormatada(contatos, indice);
+        AgendaServices.imprimirAgendaFormatada(contatos, indice);
     }
 
-    private static boolean adicionarContato(String[][] contatos, Scanner sc, int indice) throws Exception {
+    private static boolean adicionarContato(String[][] contatos, Scanner sc, int indice) {
         System.out.println(">>>>>Adicionando Contato<<<<<");
         System.out.print("Digite o nome: ");
         String nome = sc.next();
-        System.out.print("Digite o telefone: ");
-        String telefone = Utilitarios.adicionarTelefone(contatos, sc);
+        String telefone = AgendaServices.adicionarTelefone(contatos, sc);
         System.out.print("Digite o E-mail: ");
         String email = sc.next();
 
@@ -92,10 +92,10 @@ public class AgendaContato {
         String telefone = sc.next();
 
         for (String[] contato : contatos) {
-            if (Utilitarios.checarSeContatoExiste(contatos, telefone)) {
+            if (AgendaServices.checarSeContatoExiste(contatos, telefone)) {
                 System.out.println("\n-----Informações-----");
                 System.out.println("Nome: " + contato[0] + "\t|Telefone: " + contato[1] + "\t |E-mail: " + contato[2]);
-
+                break;
             } else {
                 System.out.println("Contato nao encontrado!");
                 break;
