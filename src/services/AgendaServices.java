@@ -4,17 +4,7 @@ import java.util.Scanner;
 
 public class AgendaServices {
 
-    public static void imprimirAgendaFormatada(String[][] contatos, int indice) {
-        System.out.println(
-                ">>>> Contatos <<<<\n" +
-                        "Id | Nome | Telefone | E-mail"
-        );
-
-        for (int i = 0; i < indice; i++) {
-            System.out.printf("%d | %s | %s | %s\n", i, contatos[i][0], contatos[i][1], contatos[i][2]);
-        }
-    }
-
+//  TODO: Implementar tratamento de erro
     public static boolean checarSeContatoExiste(String[][] contatos, String telefone) {
         for (String[] contato : contatos) {
             if (contato[1] != null && contato[1].equals(telefone)) {
@@ -24,6 +14,7 @@ public class AgendaServices {
         return false;
     }
 
+//  TODO: Implementar tratamento de erro
     public static boolean validarTelefone(String telefone) {
         String caracteresPermitidos = "0123456789";
 
@@ -37,19 +28,18 @@ public class AgendaServices {
         return true;
     }
 
+
     public static String adicionarTelefone(String[][] contatos, Scanner sc) {
         String telefone = "";
         boolean telefoneValido = false;
 
         while (!telefoneValido) {
             System.out.print("Digite o telefone: ");
-            telefone = sc.next();
+            telefone = sc.nextLine();
 
 
 //          TODO: implementar função de sair do modo adicionar telefone
-            if (telefone.equals("SAIR")) {
-                break;
-            } else if (validarTelefone(telefone)) {
+                 if (validarTelefone(telefone)) {
                 if (checarSeContatoExiste(contatos, telefone)) {
                     System.out.println("Telefone já existe na agenda. Por favor, digite um telefone diferente ou SAIR.");
                 } else {

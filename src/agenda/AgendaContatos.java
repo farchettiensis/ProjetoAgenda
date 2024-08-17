@@ -9,6 +9,8 @@ public class AgendaContatos {
     static int opcao, indice = 0;
 
     static public void iniciarSistema() {
+
+//      TODO: remover try cath
         try (Scanner sc = new Scanner(System.in)) {
             do {
                 System.out.println(
@@ -17,10 +19,6 @@ public class AgendaContatos {
                         ##### AGENDA #####
                         ##################
                         """);
-
-                if (indice > 0) {
-                    AgendaServices.imprimirAgendaFormatada(contatos, indice);
-                }
 
                 System.out.println("\n>>>> Menu Contato <<<<");
                 System.out.println("1 - Adicionar Contato");
@@ -32,7 +30,7 @@ public class AgendaContatos {
                 System.out.print("Escolha uma opção: ");
 
                 opcao = sc.nextInt();
-
+//              TODO: Usar ENUM
                 switch (opcao) {
                     case 1:
                         if (adicionarContato(contatos, sc, indice)) {
@@ -62,21 +60,30 @@ public class AgendaContatos {
 
             } while (opcao != 6);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println("Opção inválida. Tente novamente!");
+            e.printStackTrace();
         }
     }
 
+
+//   TODO: Criar Formatação
     private static void listarTodosContatos() {
-        AgendaServices.imprimirAgendaFormatada(contatos, indice);
+
+        System.out.println(">>>>>>> CONTATOS <<<<<<<");
+        System.out.printf("%-10s %-10s %-10s %-10s\n","Id", "Nome", "Telefone", "E-mail");
+        for (int i = 0; i < indice; i++) {
+            System.out.printf("%d %-10s %-10s %-10s %-10s\n",i,"",contatos[i][0],contatos[i][1],contatos[i][2]);
+        }
     }
 
     private static boolean adicionarContato(String[][] contatos, Scanner sc, int indice) {
         System.out.println(">>>>>Adicionando Contato<<<<<");
+        sc.nextLine();
         System.out.print("Digite o nome: ");
-        String nome = sc.next();
+        String nome = sc.nextLine();
         String telefone = AgendaServices.adicionarTelefone(contatos, sc);
         System.out.print("Digite o E-mail: ");
-        String email = sc.next();
+        String email = sc.nextLine();
 
         contatos[indice][0] = nome;
         contatos[indice][1] = telefone;
@@ -103,6 +110,7 @@ public class AgendaContatos {
         }
     }
 
+//  TODO: criar "tem certeza"
     private static void editarContato(String[][] contatos, Scanner sc) {
         System.out.print("Digite o número de telefone do contato: ");
         String telefone = sc.next();
@@ -127,6 +135,7 @@ public class AgendaContatos {
         }
     }
 
+//  TODO: criar "tem certeza"
     private static void removerContato(Scanner sc) {
         System.out.println("Digite o número de telefone do contato a ser removido: ");
         String telefone = sc.next();
