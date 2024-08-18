@@ -1,96 +1,106 @@
 package agenda;
 
+import Enums.Operacoes;
 import services.AgendaServices;
 import java.util.Scanner;
 
 
 public class AgendaContatos {
     static String[][] contatos = new String[100][3];
-    static int opcao, indice = 0;
+    static int indice = 0;
+
+    private static void icreaseIndex() {
+        indice++;
+    }
+
+    private static void decreaseIndex() {
+        indice++;
+    }
 
     static public void iniciarSistema() {
+        Scanner sc = new Scanner(System.in);
+        Operacoes operacao = null;
 
-//      TODO: remover try cath
-        try (Scanner sc = new Scanner(System.in)) {
-            do {
-                System.out.println(
-                        """
-                        ##################
-                        ##### AGENDA #####
-                        ##################
-                        """);
+        do {
+            System.out.println(
+                    """
+                            ##################
+                            ##### AGENDA #####
+                            ##################
+                            """);
 
-                System.out.println("\n>>>> Menu Contato <<<<");
-                System.out.println("1 - Adicionar Contato");
-                System.out.println("2 - Detalhar Contato");
-                System.out.println("3 - Editar Contato");
-                System.out.println("4 - Remover Contatos");
-                System.out.println("5 - Listar Contatos");
-                System.out.println("6 - Sair\n");
-                System.out.print("Escolha uma opção: ");
+            System.out.println("\n>>>> Menu Contato <<<<");
+            System.out.println("1 - Adicionar Contato");
+            System.out.println("2 - Detalhar Contato");
+            System.out.println("3 - Editar Contato");
+            System.out.println("4 - Remover Contatos");
+            System.out.println("5 - Listar Contatos");
+            System.out.println("6 - Sair\n");
+            System.out.print("Escolha uma opção: ");
 
+            int opcao = 0;
+            if (sc.hasNextInt()) {
                 opcao = sc.nextInt();
-//              TODO: Usar ENUM
-                switch (opcao) {
-                    case 1:
-                        if (adicionarContato(contatos, sc, indice)) {
-                            indice++;
-                        }
-                        break;
-                    case 2:
-                        detalharContato(contatos, sc);
-                        break;
-                    case 3:
-                        editarContato(contatos, sc);
-                        break;
-                    case 4:
-                        removerContato(sc);
-                        indice--;
-                        break; 
-                    case 5:
-                        listarTodosContatos();
-                        break;
-                    case 6:
-                        System.out.println("Saindo do programa...");
-                        break;
-                    default:
-                        System.out.println("Opção inválida. Tente novamente!");
-                        break;
+
+                if (opcao >= 1 && opcao <= Operacoes.values().length) {
+                    operacao = Operacoes.values()[opcao - 1];
+                } else {
+                    operacao = null;
                 }
+            } else {
+                System.out.println("Opção inválida. Tente novamente!");
+                sc.next();
+                continue;
+            }
 
-            } while (opcao != 6);
-        } catch (Exception e) {
-            System.out.println("Opção inválida. Tente novamente!");
-            e.printStackTrace();
-        }
+            if (operacao == null) {
+                System.out.println("Opção inválida. Tente novamente!");
+                continue;
+            }
+
+            switch (operacao) {
+                case ADICIONAR:
+                    adicionarContato(contatos, sc, indice);
+                    break;
+                case DETALHAR:
+                    detalharContato(contatos, sc);
+                    break;
+                case EDITAR:
+                    editarContato(contatos, sc);
+                    break;
+                case REMOVER:
+                    removerContato(sc);
+                    indice--;
+                    break;
+                case LISTAR:
+                    listarTodosContatos();
+                    break;
+                case SAIR:
+                    System.out.println("Saindo do programa...");
+                    break;
+            }
+
+        } while (operacao != Operacoes.SAIR);
     }
 
-
-//   TODO: Criar Formatação
-    private static void listarTodosContatos() {
-
-        System.out.println(">>>>>>> CONTATOS <<<<<<<");
-        System.out.printf("%-10s %-10s %-10s %-10s\n","Id", "Nome", "Telefone", "E-mail");
-        for (int i = 0; i < indice; i++) {
-            System.out.printf("%d %-10s %-10s %-10s %-10s\n",i,"",contatos[i][0],contatos[i][1],contatos[i][2]);
-        }
-    }
-
-    private static boolean adicionarContato(String[][] contatos, Scanner sc, int indice) {
+    private static void adicionarContato(String[][] contatos, Scanner sc, int indice) {
         System.out.println(">>>>>Adicionando Contato<<<<<");
-        sc.nextLine();
+
+        if (sc.hasNextLine()) {
+            sc.nextLine();
+        }
+
         System.out.print("Digite o nome: ");
         String nome = sc.nextLine();
         String telefone = AgendaServices.adicionarTelefone(contatos, sc);
+
         System.out.print("Digite o E-mail: ");
         String email = sc.nextLine();
-
         contatos[indice][0] = nome;
         contatos[indice][1] = telefone;
         contatos[indice][2] = email;
+        icreaseIndex();
         System.out.println("Contato adicionado com sucesso!");
-        return true;
-
     }
 
     private static void detalharContato(String[][] contatos, Scanner sc) {
@@ -110,7 +120,7 @@ public class AgendaContatos {
         }
     }
 
-//  TODO: criar "tem certeza"
+    //  TODO: criar "tem certeza"
     private static void editarContato(String[][] contatos, Scanner sc) {
         System.out.print("Digite o número de telefone do contato: ");
         String telefone = sc.next();
@@ -135,7 +145,7 @@ public class AgendaContatos {
         }
     }
 
-//  TODO: criar "tem certeza"
+    //  TODO: criar "tem certeza"
     private static void removerContato(Scanner sc) {
         System.out.println("Digite o número de telefone do contato a ser removido: ");
         String telefone = sc.next();
@@ -146,11 +156,25 @@ public class AgendaContatos {
                     contatos[j] = contatos[j + 1];
                 }
                 contatos[indice - 1] = new String[3];
-                indice--;
+                decreaseIndex();
                 System.out.println("Contato removido com sucesso.");
                 return;
             }
         }
         System.out.println("Não encontrado.");
     }
+
+    private static void listarTodosContatos() {
+        System.out.println(">>>>>>> CONTATOS <<<<<<<");
+
+        System.out.printf("%-5s %-20s %-15s %-30s\n", "Id", "Nome", "Telefone", "E-mail");
+        System.out.println("---------------------------------------------------------------");
+
+        for (int i = 0; i < indice; i++) {
+            System.out.printf("%-5d %-20s %-15s %-30s\n", i, contatos[i][0], contatos[i][1], contatos[i][2]);
+        }
+
+        System.out.println("---------------------------------------------------------------");
+    }
+
 }
