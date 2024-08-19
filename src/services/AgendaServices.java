@@ -1,5 +1,6 @@
 package services;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class AgendaServices {
@@ -11,11 +12,16 @@ public class AgendaServices {
                     return true;
                 }
             }
+        } catch (NullPointerException e) {
+            System.out.println("Erro: Contato ou telefone nulo encontrado.");
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("Erro: Acesso inválido ao array de contatos.");
         } catch (Exception e) {
-            System.out.println("Erro ao verificar se o contato existe: " + e.getMessage());
+            System.out.println("Erro desconhecido ao verificar se o contato existe: " + e.getMessage());
         }
         return false;
     }
+
 
     public static boolean validarTelefone(String telefone) {
         try {
@@ -27,11 +33,12 @@ public class AgendaServices {
                     return false;
                 }
             }
+        } catch (StringIndexOutOfBoundsException e) {
+            System.out.println("Erro: Índice de string fora dos limites ao validar telefone.");
         } catch (Exception e) {
-            System.out.println("Erro ao validar o telefone: " + e.getMessage());
+            System.out.println("Erro desconhecido ao validar o telefone: " + e.getMessage());
             return false;
         }
-
         return true;
     }
 
@@ -54,14 +61,16 @@ public class AgendaServices {
                 } else {
                     System.out.println("Telefone inválido. Por favor, tente novamente.");
                 }
+            } catch (InputMismatchException e) {
+                System.out.println("Erro: Tipo de entrada inválido.");
+                sc.next();
             } catch (Exception e) {
-                System.out.println("Erro ao adicionar telefone: " + e.getMessage());
+                System.out.println("Erro desconhecido ao adicionar telefone: " + e.getMessage());
             }
         }
 
         return telefone;
     }
-
 
     public static boolean listaCheia(String[][] contatos, int indice) {
         return indice >= contatos.length;

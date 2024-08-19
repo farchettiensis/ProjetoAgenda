@@ -3,6 +3,7 @@ package agenda;
 import models.Operacoes;
 import services.AgendaServices;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 
@@ -103,8 +104,13 @@ public class AgendaContatos {
             contatos[indice][2] = email;
             icreaseIndex();
             System.out.println("Contato adicionado com sucesso!");
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("Erro: Tentativa de acessar um índice inválido do array de contatos.");
+        } catch (InputMismatchException e) {
+            System.out.println("Erro: Tipo de entrada inválido.");
+            sc.next();
         } catch (Exception e) {
-            System.out.println("Erro ao adicionar contato: " + e.getMessage());
+            System.out.println("Erro desconhecido ao adicionar contato: " + e.getMessage());
         }
     }
 
