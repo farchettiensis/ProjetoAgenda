@@ -51,5 +51,10 @@ public class AgendaServices {
         return telefone;
     }
 
-
+    public static boolean listaCheia(String[][] contatos, int indice) {
+        if (indice>=contatos.length) {
+            return true;
+        }
+        return false;
+    }
 }
