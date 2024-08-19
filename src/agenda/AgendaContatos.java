@@ -24,7 +24,7 @@ public class AgendaContatos {
         do {
             System.out.println(
                     """
-                            ##################
+                            \n##################
                             ##### AGENDA #####
                             ##################
                             """);
@@ -99,14 +99,17 @@ public class AgendaContatos {
         System.out.print("Digite o nome: ");
         String nome = sc.nextLine();
         String telefone = AgendaServices.adicionarTelefone(contatos, sc);
+        String email;
+        do {
+            System.out.print("Digite o E-mail: ");
+            email = sc.nextLine();
+        } while (!AgendaServices.validarEmail(email));
 
-        System.out.print("Digite o E-mail: ");
-        String email = sc.nextLine();
         contatos[indice][0] = nome;
         contatos[indice][1] = telefone;
         contatos[indice][2] = email;
         icreaseIndex();
-        System.out.println("Contato adicionado com sucesso!");
+        System.out.println("\nContato adicionado com sucesso!");
     }
 
     private static void detalharContato(String[][] contatos, Scanner sc) {

@@ -51,5 +51,15 @@ public class AgendaServices {
         return telefone;
     }
 
+    public static boolean validarEmail(String email) {
+        int existeArroba = email.indexOf("@");
+
+        if (existeArroba == -1) {
+            System.out.println("E-mail inválido, digite novamente!");
+            return false;
+        }
+        return true;
+    }
+
 
 }
