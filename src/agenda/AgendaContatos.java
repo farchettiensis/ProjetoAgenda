@@ -60,6 +60,7 @@ public class AgendaContatos {
 
             switch (operacao) {
                 case ADICIONAR:
+                    agendaAdaptavel();
                     adicionarContato(contatos, sc, indice);
                     break;
                 case DETALHAR:
@@ -70,7 +71,6 @@ public class AgendaContatos {
                     break;
                 case REMOVER:
                     removerContato(sc);
-                    indice--;
                     break;
                 case LISTAR:
                     listarTodosContatos();
@@ -175,6 +175,18 @@ public class AgendaContatos {
         }
 
         System.out.println("---------------------------------------------------------------");
+    }
+
+    private static void agendaAdaptavel() {
+        if (AgendaServices.listaCheia(contatos,indice)) {
+            String[][] novosContatos = new String[2*indice][3];
+            for (int i=0;i<contatos.length;i++) {
+                for (int j=0;j<contatos[i].length;j++){
+                    novosContatos[i][j] = contatos[i][j];
+                }
+            }
+            contatos = novosContatos;
+        }
     }
 
 }
