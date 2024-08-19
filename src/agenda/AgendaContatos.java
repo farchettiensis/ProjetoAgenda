@@ -76,6 +76,12 @@ public class AgendaContatos {
                     listarTodosContatos();
                     break;
                 case SAIR:
+                    System.out.println("Tem certeza que deseja sair do programa?\n1 - SIM\n2 - NÃO");
+                    int confimacao = sc.nextInt();
+                    if (confimacao == 2) {
+                        operacao = null;
+                        continue;
+                    }
                     System.out.println("Saindo do programa...");
                     break;
             }
@@ -120,7 +126,6 @@ public class AgendaContatos {
         }
     }
 
-    //  TODO: criar "tem certeza"
     private static void editarContato(String[][] contatos, Scanner sc) {
         System.out.print("Digite o número de telefone do contato: ");
         String telefone = sc.next();
@@ -130,11 +135,21 @@ public class AgendaContatos {
             if (contatos[i][1] != null && contatos[i][1].equals(telefone)) {
                 System.out.println(">>>>Atualizando contato<<<<");
                 System.out.print("Novo Nome: ");
-                contatos[i][0] = sc.next();
+                String novoNome = sc.next();
                 System.out.print("Novo Telefone: ");
-                contatos[i][1] = sc.next();
+                String novoTelefone = sc.next();
                 System.out.print("Novo E-mail: ");
-                contatos[i][2] = sc.next();
+                String novoEmail = sc.next();
+                System.out.printf("\nVocê está alterando os dados do contato para:" +
+                        "\nNome: %s\nTelefone: %s\nE-mail: %s\nDigite 1 para Confirmar e 2 para Cancelar: ", novoNome, novoTelefone, novoEmail);
+                int confirmacao = sc.nextInt();
+                if (confirmacao == 2) {
+                    System.out.println("\nOperacão Cancelada...\n");
+                    iniciarSistema();
+                }
+                contatos[i][0] = novoNome;
+                contatos[i][1] = novoTelefone;
+                contatos[i][2] = novoEmail;
                 System.out.println("Contato atualizado!");
                 contatoJaExiste = true;
                 break;
@@ -145,10 +160,26 @@ public class AgendaContatos {
         }
     }
 
-    //  TODO: criar "tem certeza"
     private static void removerContato(Scanner sc) {
         System.out.println("Digite o número de telefone do contato a ser removido: ");
         String telefone = sc.next();
+        System.out.println("Tem certeza que deseja remover o contato abaixo?");
+        String nomeContato = "", telefoneContato = "", emailContato = "";
+        for (int i = 0; i < indice; i++) {
+            if (contatos[i][1].equals(telefone)) {
+                nomeContato = contatos[i][0];
+                telefoneContato = contatos[i][1];
+                emailContato = contatos[i][2];
+            }
+        }
+        System.out.printf("\nNome: %s\nTelefone: %s\nE-mail: %s", nomeContato, telefoneContato, emailContato);
+        System.out.println("\nDigite 1 para Confirmar e 2 para Cancelar: ");
+        int confirmacao = sc.nextInt();
+        if (confirmacao == 2) {
+            System.out.println("\nOperacão Cancelada...\n");
+            iniciarSistema();
+        }
+
 
         for (int i = 0; i < indice; i++) {
             if (contatos[i][1].equals(telefone)) {
