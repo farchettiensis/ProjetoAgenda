@@ -9,7 +9,7 @@ Tem como objetivo colocar em prática os conteúdos aprendidos durante o primeir
 * Dentre alguns dos desafios que encontramos no projeto podemos citar as questões relacionadas ao trabalho com matrizes e
 organização das responsabilidades dos métodos e definição de seus limites.
 * Ainda que tenha sido uma proposta interessante, a restrição do uso de ferramentas para apenas aquelas aprendidas durante o módulo do curso, também foi um desafio.
-
+* Outro ponto desafiador observado foi com relação ao compartilhamento de atualizações individuais ao projeto e à manutenção de uma mesma linha de logica e arquitetura do mesmo.
 
 ## O que foi mais interessante?
 * Criar um sistema usando apenas conceitos simples, sem usar ferramentas que não estão presentes no módulo previamente lecionado.
