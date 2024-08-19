@@ -1,30 +1,44 @@
 package services;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class AgendaServices {
 
-//  TODO: Implementar tratamento de erro
     public static boolean checarSeContatoExiste(String[][] contatos, String telefone) {
-        for (String[] contato : contatos) {
-            if (contato[1] != null && contato[1].equals(telefone)) {
-                return true;
+        try {
+            for (String[] contato : contatos) {
+                if (contato[1] != null && contato[1].equals(telefone)) {
+                    return true;
+                }
             }
+        } catch (NullPointerException e) {
+            System.out.println("Erro: Contato ou telefone nulo encontrado.");
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("Erro: Acesso inválido ao array de contatos.");
+        } catch (Exception e) {
+            System.out.println("Erro desconhecido ao verificar se o contato existe: " + e.getMessage());
         }
         return false;
     }
 
-//  TODO: Implementar tratamento de erro
+
     public static boolean validarTelefone(String telefone) {
-        String caracteresPermitidos = "0123456789";
+        try {
+            String caracteresPermitidos = "0123456789";
 
-        for (int i = 0; i < telefone.length(); i++) {
-            char c = telefone.charAt(i);
-            if (caracteresPermitidos.indexOf(c) == -1) {
-                return false;
+            for (int i = 0; i < telefone.length(); i++) {
+                char c = telefone.charAt(i);
+                if (caracteresPermitidos.indexOf(c) == -1) {
+                    return false;
+                }
             }
+        } catch (StringIndexOutOfBoundsException e) {
+            System.out.println("Erro: Índice de string fora dos limites ao validar telefone.");
+        } catch (Exception e) {
+            System.out.println("Erro desconhecido ao validar o telefone: " + e.getMessage());
+            return false;
         }
-
         return true;
     }
 
@@ -34,17 +48,24 @@ public class AgendaServices {
         boolean telefoneValido = false;
 
         while (!telefoneValido) {
-            System.out.print("Digite o telefone: ");
-            telefone = sc.nextLine();
+            try {
+                System.out.print("Digite o telefone: ");
+                telefone = sc.nextLine();
 
-            if (validarTelefone(telefone)) {
-                if (checarSeContatoExiste(contatos, telefone)) {
-                    System.out.println("Telefone já existe na agenda. Por favor, digite um telefone diferente.");
+                if (validarTelefone(telefone)) {
+                    if (checarSeContatoExiste(contatos, telefone)) {
+                        System.out.println("Telefone já existe na agenda. Por favor, digite um telefone diferente.");
+                    } else {
+                        telefoneValido = true;
+                    }
                 } else {
-                    telefoneValido = true;
+                    System.out.println("Telefone inválido. Por favor, tente novamente.");
                 }
-            } else {
-                System.out.println("Telefone inválido. Por favor, tente novamente.");
+            } catch (InputMismatchException e) {
+                System.out.println("Erro: Tipo de entrada inválido.");
+                sc.next();
+            } catch (Exception e) {
+                System.out.println("Erro desconhecido ao adicionar telefone: " + e.getMessage());
             }
         }
 
@@ -52,9 +73,6 @@ public class AgendaServices {
     }
 
     public static boolean listaCheia(String[][] contatos, int indice) {
-        if (indice>=contatos.length) {
-            return true;
-        }
-        return false;
+        return indice >= contatos.length;
     }
 }
