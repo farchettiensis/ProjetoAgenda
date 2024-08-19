@@ -11,7 +11,7 @@ public class AgendaContatos {
     static String[][] contatos = new String[100][3];
     static int indice = 0;
 
-    private static void icreaseIndex() {
+    private static void increaseIndex() {
         indice++;
     }
 
@@ -111,7 +111,7 @@ public class AgendaContatos {
             contatos[indice][0] = nome;
             contatos[indice][1] = telefone;
             contatos[indice][2] = email;
-            icreaseIndex();
+            increaseIndex();
             System.out.println("Contato adicionado com sucesso!");
         } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("Erro: Tentativa de acessar um índice inválido do array de contatos.");

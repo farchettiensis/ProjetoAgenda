@@ -73,11 +73,15 @@ public class AgendaServices {
     }
 
     public static boolean validarEmail(String email) {
-        int indiceArroba = email.indexOf("@");
-        int indiceOutroArroba = email.indexOf("@", indiceArroba+1);
-        if (indiceArroba == -1 || indiceOutroArroba != -1 || indiceArroba == email.length()-1) {
-            System.out.println("E-mail inválido, digite novamente!");
-            return false;
+        try {
+            int indiceArroba = email.indexOf("@");
+            int indiceOutroArroba = email.indexOf("@", indiceArroba + 1);
+            if (indiceArroba == -1 || indiceOutroArroba != -1 || indiceArroba == email.length() - 1) {
+                System.out.println("E-mail inválido, digite novamente!");
+                return false;
+            }
+        } catch (Exception e) {
+            System.out.println("Erro desconhecido ao validar E-mail: " + e.getMessage());
         }
         return true;
     }
