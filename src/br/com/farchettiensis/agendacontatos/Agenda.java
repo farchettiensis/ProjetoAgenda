@@ -6,11 +6,11 @@ public class Agenda {
     private String nome;
 
     public Agenda() {
-        this.contatos = new Contato[5];
+        this.contatos = new Contato[10];
     }
 
     public Agenda(String nome) {
-        this.contatos = new Contato[5];
+        this.contatos = new Contato[10];
         this.nome = nome;
     }
 
@@ -19,10 +19,27 @@ public class Agenda {
     }
 
     public void adicionarContato(Contato contato) {
-        if (contador < contatos.length) {
-            contatos[contador] = contato;
-            contador++;
+        if (contador >= contatos.length) {
+            this.redimensionarArray();
         }
+        contatos[contador] = contato;
+        contador++;
+    }
 
+    private void redimensionarArray() {
+        int novoTamanho = contatos.length + (contatos.length / 2);
+        if (novoTamanho == contatos.length) {
+            novoTamanho++;
+        }
+        Contato[] novoArray = new Contato[novoTamanho];
+        for (int i = 0; i < contatos.length; i++) {
+            novoArray[i] = contatos[i];
+        }
+        contatos = novoArray;
+    }
+
+
+    public int getTamanhoArray() {
+        return contatos.length;
     }
 }
