@@ -1,105 +1,49 @@
 package br.com.farchettiensis.agendacontatos;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Agenda {
-    private Contato[] contatos;
-    private int contador;
-    private String nome;
+    private final List<Contato> contatos;
 
     public Agenda() {
-        this.contatos = new Contato[10];
-    }
-
-    public Agenda(String nome) {
-        this.contatos = new Contato[10];
-        this.nome = nome;
-    }
-
-    public String getNome() {
-        return this.nome;
+        this.contatos = new ArrayList<>();
     }
 
     public void adicionarContato(Contato contato) {
-        if (contador >= contatos.length) {
-            this.redimensionarArray();
-        }
-        contatos[contador] = contato;
-        contador++;
+        this.contatos.add(contato);
     }
 
-    public void removerContato(String nome) {
-        for (int i = 0; i < contador; i++) {
-            if (contatos[i].getNome().equals(nome)) {
-                removerContatoPorIndice(i);
-                return;
+    public void removerContato(Contato contato) {
+        this.contatos.remove(contato);
+    }
+
+    public List<Contato> listarContatos() {
+        return this.contatos;
+    }
+
+    public String buscarContato(String telefone) {
+        for (Contato contato : this.contatos) {
+            if (contato.getTelefone().getNumero().equals(telefone)) {
+                return contato.detalharContato();
             }
         }
+        return "Contato não encontrado.";
     }
 
-    public void removerContato(Telefone telefone) {
-        for (int i = 0; i < contador; i++) {
-            if (contatos[i].getTelefone().getNumero().equals(telefone.getNumero())) {
-                removerContatoPorIndice(i);
-                return;
-            }
+    public String listarTodosOsContatos() {
+        StringBuilder sb = new StringBuilder();
+        for (Contato contato : this.contatos) {
+            sb.append(String.format("%-20s %-15s %-30s %-30s %-20s%n",
+                    contato.getNome(),
+                    contato.getTelefone() != null ? contato.getTelefone().getNumero() : "N/A",
+                    contato.getEndereco() != null ? contato.getEndereco() : "N/A",
+                    contato.getEmail() != null ? contato.getEmail() : "N/A",
+                    contato.getChavePix() != null ? contato.getChavePix() : "N/A"
+            ));
         }
-    }
-
-    public void removerContato(String nome, Telefone telefone) {
-        for (int i = 0; i < contador; i++) {
-            if (contatos[i].getNome().equals(nome) &&
-                    contatos[i].getTelefone().getNumero().equals(telefone.getNumero())) {
-                removerContatoPorIndice(i);
-                return;
-            }
-        }
-    }
-
-    private void removerContatoPorIndice(int indice) {
-        for (int i = indice; i < contador - 1; i++) {
-            contatos[i] = contatos[i + 1];
-        }
-        contatos[contador - 1] = null;
-        contador--;
-    }
-
-    public void listarContatos() {
-        ordenarContatos();
-
-        for (int i = 0; i < contador; i++) {
-            System.out.printf("%d - %s", i, contatos[i].getNome());
-        }
-    }
-
-    private void ordenarContatos() {
-        for (int i = 0; i < contador - 1; i++) {
-            for (int j = 0; j < contador - 1 - i; j++) {
-                if (contatos[j].getNome().compareTo(contatos[j + 1].getNome()) > 0) {
-                    Contato contatoTemporario = contatos[j];
-                    contatos[j] = contatos[j + 1];
-                    contatos[j + 1] = contatoTemporario;
-                }
-            }
-        }
+        return sb.toString();
     }
 
 
-    public void editarContato() {
-
-    }
-
-    private void redimensionarArray() {
-        int novoTamanho = contatos.length + (contatos.length / 2);
-        if (novoTamanho == contatos.length) {
-            novoTamanho++;
-        }
-        Contato[] novoArray = new Contato[novoTamanho];
-        for (int i = 0; i < contatos.length; i++) {
-            novoArray[i] = contatos[i];
-        }
-        contatos = novoArray;
-    }
-
-    public int getTamanhoArray() {
-        return contatos.length;
-    }
 }

@@ -2,11 +2,10 @@ package br.com.farchettiensis.agendacontatos;
 
 public class Contato {
     private String nome;
-    private String apelido;
-    private String empresa;
     private String email;
     private String endereco;
     private Telefone telefone;
+    private String chavePix;
 
     public Contato(String nome) {
         this.nome = nome;
@@ -19,16 +18,23 @@ public class Contato {
 
     public Contato(String nome,
                    Telefone telefone,
-                   String apelido,
                    String endereco,
                    String email,
-                   String empresa) {
+                   String chavePix
+    ) {
         this.nome = nome;
         this.telefone = telefone;
-        this.apelido = apelido;
         this.endereco = endereco;
         this.email = email;
-        this.empresa = empresa;
+        this.chavePix = chavePix;
+    }
+
+    public String getChavePix() {
+        return chavePix;
+    }
+
+    public void setChavePix(String chavePix) {
+        this.chavePix = chavePix;
     }
 
     public String getNome() {
@@ -37,22 +43,6 @@ public class Contato {
 
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    public String getApelido() {
-        return this.apelido;
-    }
-
-    public void setApelido(String apelido) {
-        this.apelido = apelido;
-    }
-
-    public String getEmpresa() {
-        return this.empresa;
-    }
-
-    public void setEmpresa(String empresa) {
-        this.empresa = empresa;
     }
 
     public String getEmail() {
@@ -77,5 +67,16 @@ public class Contato {
 
     public void setTelefone(Telefone telefone) {
         this.telefone = telefone;
+    }
+
+    public String detalharContato() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(String.format("Nome: %s.%n", this.nome));
+        sb.append(String.format("Telefone: %s.%n", this.telefone.getNumero()));
+        sb.append(String.format("Endereço: %s.%n", this.endereco));
+        sb.append(String.format("Email: %s.%n", this.email));
+        sb.append(String.format("Chave PIX: %s.%n", this.chavePix));
+
+        return sb.toString();
     }
 }

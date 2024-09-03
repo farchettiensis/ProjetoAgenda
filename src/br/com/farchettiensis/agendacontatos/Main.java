@@ -3,22 +3,23 @@ package br.com.farchettiensis.agendacontatos;
 public class Main {
     public static void main(String[] args) {
         Telefone telefone1 = new Telefone("12345678909", TipoTelefone.CELULAR);
+        Telefone telefone2 = new Telefone("98765432109", TipoTelefone.CASA);
+        Telefone telefone3 = new Telefone("12345678909", TipoTelefone.TRABALHO);
 
-        Contato contato1 = new Contato(
-                "Jamil Assis",
-                telefone1,
-                "The Hutt",
-                "Rua Dr. Jamil, 584",
-                "dr.jamil@jamil.org.br",
-                "Instituto Jamil"
+        Contato contato1 = new Contato("Donald Fagen", telefone1, "Rua Custerdome, 1", "dfagen@steely.dan", "deaconBlues");
+        String cont1Detalhes = contato1.detalharContato();
+        System.out.println(cont1Detalhes);
 
-        );
+        Contato contato2 = new Contato("Walter Becker", telefone2, "Rua Custerdome, 2", "wbecker@steely.dan", "homeAtLast");
+        Contato contato3 = new Contato("Skunk Baxter", telefone3, "Rua Custerdome, 3", "sbaxter@doobie.bros", "46346585");
 
-        System.out.printf("Nome: %s%n", contato1.getNome());
-        System.out.printf("Telefone: %s (%s)%n", contato1.getTelefone().getNumero(), contato1.getTelefone().getTipo().getDescricao());
-        System.out.printf("Apelido: %s%n", contato1.getApelido());
-        System.out.printf("Endereço: %s%n", contato1.getEndereco());
-        System.out.printf("Email: %s%n", contato1.getEmail());
-        System.out.printf("Empresa: %s%n",contato1.getEmpresa());
+        Agenda agenda = new Agenda();
+        agenda.adicionarContato(contato1);
+        agenda.adicionarContato(contato2);
+        agenda.adicionarContato(contato3);
+        System.out.println(agenda.listarTodosOsContatos());
+
+        agenda.removerContato(contato3);
+        System.out.println(agenda.listarTodosOsContatos());
     }
 }
